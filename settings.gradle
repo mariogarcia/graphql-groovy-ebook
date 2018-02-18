@@ -1,0 +1,3 @@
+include 'graphql-ebook'
+
+rootProject.name = 'graphql-groovy-ebook'

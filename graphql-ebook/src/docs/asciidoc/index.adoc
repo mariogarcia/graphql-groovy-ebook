@@ -1,0 +1,23 @@
+= Developing GraphQL applications with Groovy
+:revnumber: {project-version}
+:numbered:
+:imagesDir: images/
+:imagesoutdir: images/
+:baseDir: .
+:stem:
+
+:gql: {baseDir}/../../../../graphql-gql
+:grails: {baseDir}/../../../../../graphql-grails
+:ratpack: {baseDir}/../../../../../graphql-ratpack
+
+include::chapter_0.adoc[]
+
+include::chapter_1.adoc[]
+
+include::chapter_2.adoc[]
+
+include::chapter_3.adoc[]
+
+include::chapter_4.adoc[]
+
+include::chapter_5.adoc[]

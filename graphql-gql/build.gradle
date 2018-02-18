@@ -1,0 +1,7 @@
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.github.grooviter:gql-core:0.2.0'
+}

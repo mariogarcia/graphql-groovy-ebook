@@ -1,0 +1,17 @@
+== GraphQL
+
+In this chapter I'll be reviewing some basic concepts about what is
+GraphQL and what it could be used for.
+
+=== What is GraphQL ?
+
+GraphQL is a query language. It's been created to ease the way a given
+client can query some data from an underlying storage engine.
+
+The way those queries are declared is done using a type system you
+define for your data. GraphQL isn't tied to any specific database or
+storage engine and is instead backed by your existing code and data.
+
+IMPORTANT: For a full detailed explanation about GraphQL I would
+recommend you to take a look at the official tutorial at
+http://graphql.org/learn/

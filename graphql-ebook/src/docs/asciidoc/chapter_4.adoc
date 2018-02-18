@@ -1,0 +1,31 @@
+== GraphQL + Grails
+
+(TODO)
+
+=== Create project
+
+(TODO)
+
+=== Install plugin
+
+(TODO)
+
+=== GORM Entities
+
+(TODO)
+
+=== Handling errors
+
+(TODO)
+
+=== Security
+
+(TODO)
+
+==== Authentication
+
+(TODO)
+
+==== Authorization
+
+(TODO)

@@ -1,0 +1,45 @@
+== GraphQL + Ratpack
+
+(TODO)
+
+=== Create project
+
+(TODO)
+
+=== GraphQL handler
+
+(TODO)
+
+=== GraphiQL handler
+
+(TODO)
+
+=== Schema
+
+Instead of coding the schema with Groovy we're going to use GraphQL
+syntax directly modularising the schema. Modularising the way you
+create GraphQL schemas has at least a couple of benefits:
+
+Enables you to write using plain GraphQL language: Writing code is
+cool, but you may be used to writing GraphQL schemas using the GraphQL
+language directly.
+
+It allows you to separate parts of the schema by areas of interest: No
+more a huge single file declaring everything in one place
+
+=== Handling errors
+
+NOTE: You can check how `graphql-java` handles exception during query
+execution at http://graphql-java.readthedocs.io/en/v7/execution.html
+
+=== Security
+
+(TODO)
+
+==== Authentication
+
+(TODO)
+
+==== Authorization
+
+(TODO)
