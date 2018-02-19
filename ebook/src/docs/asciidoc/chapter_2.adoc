@@ -41,7 +41,7 @@ Some of the ideas behind **GQL**:
 
 [source, groovy]
 ----
-include::{gql}/src/main/groovy/chapter1/script.groovy[]
+include::{gql}/scripts/chapter1/script.groovy[]
 ----
 
 <1> Create a simple type

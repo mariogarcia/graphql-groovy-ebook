@@ -6,7 +6,7 @@
 :baseDir: .
 :stem:
 
-:gql: {baseDir}/../../../../graphql-gql
+:gql: {baseDir}/../../../../gql
 :grails: {baseDir}/../../../../../graphql-grails
 :ratpack: {baseDir}/../../../../../graphql-ratpack
 
