@@ -63,15 +63,33 @@ something we are used to: REST
 
 ==== GraphQL vs Rest
 
-===== 1 URL vs N
+(TODO)
 
-===== Ease of use
+===== Apples and pears
 
-===== Efficiency
+(TODO)
 
-===== Auto discovery
+===== Resources vs Queries
 
-==== Basic steps
+(TODO)
+
+===== Error handling
+
+(TODO)
+
+===== App types
+
+(TODO)
+
+===== Documentation
+
+(TODO)
+
+===== Front end friendly
+
+(TODO)
+
+==== Basic lifecycle
 
 As we said in the introduction, **GraphQL** is a query language. It's
 based in a type system and defines a specific query language and how a
@@ -93,3 +111,6 @@ following the these steps:
  |  types  |         | to schema |         | schema  |         | queries |
  +---------+         +-----------+         +---------+         +---------+
 ....
+
+Well these are the basic steps, now it's time to put them into
+practice.
