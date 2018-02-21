@@ -11,6 +11,9 @@ Some of the ideas behind **GQL**:
 - It should be built having **static compilation** in mind
 - It should **not need more than one import**
 
+The following script will repeat the execution lifecycle I showed in
+the previous chapter.
+
 === Groovy script
 
 [source, groovy]
@@ -21,6 +24,14 @@ include::{gql}/scripts/chapter1/script.groovy[]
 <1> Create a simple type
 <2> Create the schema
 <3> Execute the query
+
+[ditaa]
+....
+ +---------+ enables +-----------+ enables +---------+ enables +---------+
+ |   (1)   +-------->|    (2)    +-------->|   (3)   +-------->|  (3)    |
+ |  types  |         | to schema |         |  expose |         | execute |
+ +---------+         +-----------+         +---------+         +---------+
+....
 
 === Gradle
 
