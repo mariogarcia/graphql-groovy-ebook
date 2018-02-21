@@ -63,33 +63,116 @@ something we are used to: REST
 
 ==== GraphQL vs Rest
 
-(TODO)
-
 ===== Apples and pears
 
-(TODO)
+It's funny, but every time someone thinks of GraphQL tries to compare
+it with REST, and the truth is that both technologies are so different
+that is like comparing apples and pears.
+
+While REST is more like a good practices on how to use HTTP when
+developing web applications, GraphQL in its pure sense has nothing to
+do with HTTP. GraphQL is **JUST** a query language, that often is used
+over HTTP to serve data found in an underlying data store.
+
+But GraphQL, or to be more precise, a GraphQL engine could be also
+used over any other transport protocol and still we would benefit from
+its use.
+
+That separation of concerns is important because it means that we
+could even separate the GraphQL query execution from the web app.
 
 ===== Resources vs Queries
 
-(TODO)
+In REST words a given URI exposes a resource. So the more resources
+the more URIs we'll have. That's not necessary evil, because every URI
+is responsible for serving a specifig resource in a specific way.
+
+The problem is that a REST resource is exposed in a limited number of
+ways. If we'd like to get a given car, and the endpoint exposes 4
+fields (company, model, horse power and year) that's it, we'll get
+those fields all the time, no less no more.
+
+If we'd like to change that behavior, it's up to us to code some
+customizations on the server side like passing query parameters that
+afterwards will be used to show one thing or another.
+
+But what if we had a query language that could specify which fields I
+would like to retrieve from the server. It sounds like having SQL for
+the web right ? Well that's what we could achieve exposing GraphQL
+through HTTP.
 
 ===== Error handling
 
-(TODO)
+In the REST world every response is coded by an HTTP code:
+
+- 200: everything went ok
+- 500: everything that could go wrong, went wrong
+- 400: I don't like what you're saying to me
+- ... and many others
+
+That's ok, because we were using HTTP we were talking advantage of it
+to tell clients what was happening with their requests.
+
+But as I was mentioning, GraphQL is not only about HTTP, it could be
+used, for example, over a message broker using its own binary
+protocol. Then it won't make sense to think on HTTP terms, we need
+something to use over a pleyade of protocols.
+
+Most of the GraphQL engines handle the error messages thrown by your
+application. Then the only remaining work would be to expose those
+messages over the underlying protocol.
 
 ===== App types
 
-(TODO)
+This topic is a continuation of the previous one. GraphQL could be
+used to expose data over HTTP or to query data over a JDBC connection,
+or even sending GraphQL queries over a RabbitMQ broker... the sky is
+the limit (and the common sense of course).
 
 ===== Documentation
 
-(TODO)
+When creating a REST API one of the common tasks to do is to expose
+the API documentation. How clients are supposed to use it, and if
+possible a API console to play with it.
 
-===== Front end friendly
+Nowadays there are plenty of frameworks responsible for dealing with
+that, but not all were meant to integrate with your application. At
+least some work has to be done.
 
-(TODO)
+Moreover, although there have been efforts, there is no a single
+specification on how a REST API should be done.
 
-==== Basic lifecycle
+On the other hand GraphQL was born under a specification, meaning that
+every single GraphQL engine should follow the specification. That's a
+powerful idea because it means any GraphQL engine will expose how data
+is structured in it, the same way. And here's the best part, that's
+for free, the engine implementation is already doing that. This is
+named `schema introspection`.
+
+===== Batching
+
+In a REST application, if a front end developer would want to get data
+from different sources, she should have whether to orchestrate
+different calls to different URIs, or ask a back end developer to
+serve all required data in a new URI.
+
+GraphQL uses the concept of batching queries. A GraphQL request could
+send a batch of GraphQL queries and all will be served at the same
+time to the client.
+
+The way that batch is handle by the server doesn't have to be
+sequential, in fact, the specification says that the queries could be
+processed in parallel but the result has to be sent back in the same
+response.
+
+Interestingly, mutations, which are what we use to call `non safe
+methods` in REST because they modified resources, are supposed to be
+processed sequentially in the server.
+
+To sum up, batching could be a very valuable friend when developing
+the UI.
+
+==== Execution lifecycle 1o1
 
 As we said in the introduction, **GraphQL** is a query language. It's
 based in a type system and defines a specific query language and how a
