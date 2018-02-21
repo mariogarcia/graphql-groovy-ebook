@@ -1,33 +1,9 @@
-== Groovy and GraphQL
-
-=== Groovy
-
-=== GQL
+== GQL and GraphQL
 
 **GQL** is a set of Groovy DSLs and AST transformations built on top
 of https://github.com/graphql-java/graphql-java[GraphQL-java] to make
 it easier building GraphQL schemas and execute **GraphQL** queries
 without losing type safety.
-
-**GraphQL** is a query language. It's based in a type system and
-defines a specific query language and how a specific query engine
-should work in order to process and execute GraphQL queries.
-
-Keeping long story short when dealing with **GraphQL** you normally
-will be following the these steps:
-
-- Define the schema: (first types, scalars...and then adding those
-    types to schema roots)
-- Expose the schema:  (via the chosen GraphQL implementation engine)
-- Execute queries: against the implementation engine
-
-[ditaa]
-....
- +---------+ enables +-----------+ enables +---------+ enables +---------+
- |  define +-------->| add types +-------->| expose  +-------->| execute |
- |  types  |         | to schema |         | schema  |         | queries |
- +---------+         +-----------+         +---------+         +---------+
-....
 
 Some of the ideas behind **GQL**:
 
@@ -35,7 +11,7 @@ Some of the ideas behind **GQL**:
 - It should be built having **static compilation** in mind
 - It should **not need more than one import**
 
-==== Groovy script
+=== Groovy script
 
 [source, groovy]
 ----
@@ -46,7 +22,7 @@ include::{gql}/scripts/chapter1/script.groovy[]
 <2> Create the schema
 <3> Execute the query
 
-==== Gradle
+=== Gradle
 
 To use `GQL` add the dependency to your `build.gradle` file:
 
@@ -55,14 +31,14 @@ To use `GQL` add the dependency to your `build.gradle` file:
 include::{gql}/build.gradle[]
 ----
 
-==== Declaring types
+=== Declaring types
 
 (TODO)
 
-==== Queries and mutations
+=== Queries and mutations
 
 (TODO)
 
-==== Scalars
+=== Scalars
 
 (TODO)

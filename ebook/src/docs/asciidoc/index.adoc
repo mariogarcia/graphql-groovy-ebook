@@ -12,8 +12,6 @@
 
 include::chapter_0.adoc[]
 
-include::chapter_1.adoc[]
-
 include::chapter_2.adoc[]
 
 include::chapter_3.adoc[]

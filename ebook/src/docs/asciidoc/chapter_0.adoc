@@ -1,3 +1,95 @@
 == Introduction
 
-TODO
+=== What is this all about ?
+
+Well this book was born with the idea of doing some research on what
+would be the best aproach when implementing a GraphQL solution using
+the Groovy programming language.
+
+=== Groovy
+
+According to the Groovy site:
+
+"Apache Groovy is a powerful, optionally typed and dynamic language..."
+-- www.groovy-lang.org
+
+The definition still goes on a couple of lines more, but to keep story
+short I'd conclude that Groovy is a very developer-friendly language,
+and can be as expressive as you like. It's also has the smoothest
+integration with Java.
+
+When talking about expressivenes and make your life easier, Groovy
+shines. Things like DSLs, AST transformations, or Groovy's syntactic
+sugar among other things will turn cumbersome work into enjoyable
+tasks.
+
+The libraries and frameworks I'm using through the rest of this book
+are sorted from the simplest to the most complete (not complex). I
+will try to start with simple libraries like GQL to introduce GraphQL
+concepts to full framework solutions, like Grails to accomplish full
+featured projects.
+
+Unfortunately this is not a Groovy introductory book. It requires to
+be already familiarized with the Groovy ecosystem. However there're a
+bunch of really great books covering the topic. I encourage you to
+take a look to the http://groovy-lang.org/learn.html[learn section in
+the Groovy site] to check them out.
+
+=== GraphQL
+
+GraphQL is a query language. It's been created to ease the way a given
+client can query some data from an underlying storage engine.
+
+The way those queries are declared is done using a type system you
+define for your data. GraphQL isn't tied to any specific database or
+storage engine and is instead backed by your existing code and data.
+
+IMPORTANT: For a full detailed explanation about GraphQL I would
+recommend you to take a look at the official tutorial at
+http://graphql.org/learn/
+
+But before to start coding I'll try to introduce the basic ideas
+behing GraphQL. I hope those concepts will serve as a guide through
+the rest of the book.
+
+First of all, lets talk about one, if not the most legitimate question
+when facing a new topic:
+
+- Is it worth it ?
+- Why GraphQL's worth using it ?
+
+To answer these questions I'd require to compare GraphQL with
+something we are used to: REST
+
+==== GraphQL vs Rest
+
+===== 1 URL vs N
+
+===== Ease of use
+
+===== Efficiency
+
+===== Auto discovery
+
+==== Basic steps
+
+As we said in the introduction, **GraphQL** is a query language. It's
+based in a type system and defines a specific query language and how a
+specific query engine should work in order to process and execute
+GraphQL queries.
+
+Most of the time when dealing with **GraphQL** you normally will be
+following the these steps:
+
+- **Define** the schema: (first types, scalars...and then adding those
+    types to schema roots)
+- **Expose** the schema:  (via the chosen GraphQL implementation engine)
+- **Execute** queries: against the implementation engine
+
+[ditaa]
+....
+ +---------+ enables +-----------+ enables +---------+ enables +---------+
+ |  define +-------->| add types +-------->| expose  +-------->| execute |
+ |  types  |         | to schema |         | schema  |         | queries |
+ +---------+         +-----------+         +---------+         +---------+
+....
