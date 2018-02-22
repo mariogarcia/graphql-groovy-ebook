@@ -7,8 +7,8 @@
 :stem:
 
 :gql: {baseDir}/../../../../gql
-:grails: {baseDir}/../../../../../graphql-grails
-:ratpack: {baseDir}/../../../../../graphql-ratpack
+:grails: {baseDir}/../../../../graphql-grails
+:ratpack: {baseDir}/../../../../fortune-cookies-ratpack
 
 include::chapter_0.adoc[]
 

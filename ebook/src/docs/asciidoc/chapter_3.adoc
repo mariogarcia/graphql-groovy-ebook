@@ -1,18 +1,93 @@
 == GraphQL + Ratpack
 
-(TODO)
+"Ratpack is a set of Java libraries for building scalable HTTP
+applications.  It is a lean and powerful foundation, not an
+all-encompassing framework."
+-- www.ratpack.io
 
 === Create project
 
-(TODO)
+To create a Ratpack project is pretty straight forward thanks to
+http://www.sdkman.io[SDKMan] and
+https://github.com/pledbrook/lazybones[Lazybones]. First install
+**sdkman** following the instructions found in its site. Then add the
+following property to your `$HOME/.lazybones/config.groovy` (create
+the file if it doesn't exists yet)
+
+[source, groovy]
+.config.groovy
+----
+bintrayRepositories = [
+  "ratpack/lazybones"
+]
+----
+
+That will make available the Ratpack latest templates to create a
+Ratpack project. Once this property has been set then you can start
+using Lazybones to create your first project.
+
+[source, shell]
+.shell
+----
+lazybones create ratpack 1.5.1 fortune-cookies-ratpack
+----
+
+This will create a new project called `ratpack-graphql-sample` with
+the following structure (copied from Lazybones execution).
+
+[source, text, indent=0]
+----
+    <proj>
+      |
+      +- src
+          |
+          +- ratpack
+          |     |
+          |     +- Ratpack.groovy
+          |     +- ratpack.properties
+          |     +- public // Static assets in here
+          |          |
+          |          +- images
+          |          +- lib
+          |          +- scripts
+          |          +- styles
+          |
+          +- main
+          |   |
+          |   +- groovy
+                   |
+                   +- // App classes in here!
+          |
+          +- test
+              |
+              +- groovy
+                   |
+                   +- // Spock tests in here!
+----
+
 
 === GraphQL handler
 
-(TODO)
+Now that we have the basic structure of a Ratpack project, lets make
+available a GraphQL handler that will expose the execution engine in a
+specific HTTP endpoint.
+
+[source, groovy]
+.build.gradle
+----
+include::{ratpack}/build.gradle[tags=gql-ratpack, indent=0]
+----
+
+[source, groovy]
+.Ratpack.groovy
+----
+include::{ratpack}/src/ratpack/Ratpack.groovy[indent=0]
+----
+
 
 === GraphiQL handler
 
-(TODO)
+
 
 === Schema
 
