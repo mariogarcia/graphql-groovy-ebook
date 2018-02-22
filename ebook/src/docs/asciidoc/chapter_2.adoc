@@ -3,9 +3,7 @@
 **GQL** is a set of Groovy DSLs and AST transformations built on top
 of https://github.com/graphql-java/graphql-java[GraphQL-java] to make
 it easier building GraphQL schemas and execute **GraphQL** queries
-without losing type safety.
-
-Some of the ideas behind **GQL**:
+without losing type safety. Some of the ideas behind **GQL**:
 
 - It should be **IDE friendly**
 - It should be built having **static compilation** in mind
@@ -44,7 +42,11 @@ include::{gql}/build.gradle[]
 
 === Declaring types
 
-(TODO)
+[source, groovy]
+----
+include::{gql}/src/test/groovy/chapter2/TypesSpec.groovy[tags=type, indent=0]
+----
+
 
 === Queries and mutations
 
