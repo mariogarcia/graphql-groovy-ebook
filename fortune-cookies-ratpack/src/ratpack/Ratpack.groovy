@@ -11,9 +11,7 @@ ratpack {
   }
 
   handlers {
-    handlers {
-        post('graphql', GraphQLHandler) // <3>
-        get('graphql/browser', GraphiQLHandler) // <4>
-    }
+    post('graphql', GraphQLHandler) // <3>
+    get('graphql/browser', GraphiQLHandler) // <4>
   }
 }
