@@ -5,7 +5,54 @@ applications.  It is a lean and powerful foundation, not an
 all-encompassing framework."
 -- www.ratpack.io
 
-=== Create project
+=== Groovying with Ratpack
+
+One of the nice features of Groovy is that you can create a script to
+prototype before diving into creating a full featured one. The
+following Groovy script creates a fully functional GraphQL HTTP
+application.
+
+[source, groovy]
+----
+@Grapes([ // <1>
+  @Grab('io.ratpack:ratpack-groovy:1.5.1'),
+  @Grab('org.slf4j:slf4j-simple:1.7.25'),
+  @Grab('com.github.grooviter:gql-ratpack:0.2.0')
+])
+import static ratpack.groovy.Groovy.ratpack
+
+import gql.DSL
+import gql.ratpack.GraphQLModule
+import gql.ratpack.GraphQLHandler
+import gql.ratpack.GraphiQLHandler
+
+def schema = DSL.schema { // <2>
+    queries('Queries') {
+      field('hello') {
+        type GraphQLString
+        staticValue 'GraphQL and Groovy!'
+      }
+    }
+}
+
+ratpack { // <3>
+    bindings {
+      module GraphQLModule
+
+      bindInstance schema
+    }
+    handlers {
+        post('graphql', GraphQLHandler)
+        get('graphql/browser', GraphiQLHandler)
+    }
+}
+----
+
+<1> Adding Ratpack and GQL dependencies
+<2> Create a minimal schema instance
+<3> Add GraphQL/GraphiQL handlers and the schema
+
+=== Create Gradle project
 
 To create a Ratpack project is pretty straight forward thanks to
 http://www.sdkman.io[SDKMan] and
@@ -66,11 +113,10 @@ the following structure (copied from Lazybones execution).
 ----
 
 
-=== GraphQL handler
+=== Handlers
 
-Now that we have the basic structure of a Ratpack project, lets make
-available a GraphQL handler that will expose the execution engine in a
-specific HTTP endpoint.
+Now that we have the basic structure of a Ratpack project, add the
+`gql-ratpack` dependency:
 
 [source, groovy]
 .build.gradle
@@ -78,29 +124,78 @@ specific HTTP endpoint.
 include::{ratpack}/build.gradle[tags=gql-ratpack, indent=0]
 ----
 
+Then lets make available a GraphQL and GraphiQL handlers that will
+expose the execution engine and the GraphiQL console in two different
+HTTP endpoints.
+
 [source, groovy]
 .Ratpack.groovy
 ----
 include::{ratpack}/src/ratpack/Ratpack.groovy[indent=0]
 ----
 
-
-=== GraphiQL handler
+<1> GraphQLModule will expose the schema
+<2> GraphQL handler will be exposed at `/graphql` path
+<3> GraphiQL console will be exposed at `/graphql/browser` path
 
 
 
 === Schema
 
-Instead of coding the schema with Groovy we're going to use GraphQL
+We are almost ready to go. We need to create a minimal schema. But
+instead of coding the schema with Groovy we're going to use GraphQL
 syntax directly modularising the schema. Modularising the way you
 create GraphQL schemas has at least a couple of benefits:
 
-Enables you to write using plain GraphQL language: Writing code is
+- Enables you to write using plain GraphQL language: Writing code is
 cool, but you may be used to writing GraphQL schemas using the GraphQL
 language directly.
+- It also allows you to separate parts of the schema by areas of
+interest: No more a huge single file declaring everything in one place
 
-It allows you to separate parts of the schema by areas of interest: No
-more a huge single file declaring everything in one place
+The application we're creating serves random fortune cookies. For that
+purpose we need to define the GraphQL type `Cookie` in
+`src/main/resources/schema`.
+
+[source, groovy]
+.Cookie.graphql
+----
+include::{ratpack}/src/main/resources/schema/Cookie.graphql[indent=0]
+----
+
+Because all types must be linked to the schema, now it's time for the
+schema declaration:
+
+[source, groovy]
+.Schema.graphql
+----
+include::{ratpack}/src/main/resources/schema/Schema.graphql[indent=0]
+----
+
+<1> Wrapping all queries within the `Queries` type
+<2> Set `Queries` type as the type for the queries (I know it sounds
+redundant, isn't it ? :P)
+
+To make the schema available to the GraphQL handler we need to load
+the schema definition and register it in the Ratpack's registry. We
+could add it directly to the `Ratpack.groovy` but in a
+
+[source, groovy]
+.SchemaProvider.groovy
+----
+include::{ratpack}/src/main/groovy/fortune/SchemaProvider.groovy[indent=0]
+----
+
+Although we won't be serving any data yet, but we can bootstrap the
+application to check how the schema looks like in the GraphiQL
+console. So run the application and open the browser at
+`http://localhost:5050/graphql/browser`
+
+[source, shell]
+.run application
+----
+./gradlew run
+----
 
 === Handling errors
 

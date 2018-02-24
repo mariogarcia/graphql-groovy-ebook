@@ -1,17 +1,20 @@
 import static ratpack.groovy.Groovy.ratpack
 
-// <1>
 import gql.ratpack.GraphQLModule
 import gql.ratpack.GraphQLHandler
 import gql.ratpack.GraphiQLHandler
 
+import graphql.schema.GraphQLSchema
+import fortune.SchemaProvider
+
 ratpack {
   bindings {
-    module GraphQLModule // <2>
+        module GraphQLModule // <1>
+        providerType GraphQLSchema, SchemaProvider
   }
 
   handlers {
-    post('graphql', GraphQLHandler) // <3>
-    get('graphql/browser', GraphiQLHandler) // <4>
+    post('graphql', GraphQLHandler) // <2>
+    get('graphql/browser', GraphiQLHandler) // <3>
   }
 }
