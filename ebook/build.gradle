@@ -12,7 +12,7 @@ plugins {
 version = '0.1.0'
 
 asciidoctor {
-    backends 'html5', 'pdf'
+    backends 'html5'//, 'pdf'
     attributes 'source-highlighter': 'prettify',
                toc                 : 'left',
                icons               : 'font',

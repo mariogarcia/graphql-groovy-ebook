@@ -198,7 +198,7 @@ schema we'll be creating later on.
 [source, groovy]
 .Ratpack.groovy
 ----
-include::{ratpack}/src/ratpack/Ratpack.groovy[indent=0]
+include::{ratpack}/src/ratpack/Ratpack.groovy[tags=initial, indent=0]
 ----
 
 <1> GraphQLModule will expose the schema
@@ -286,6 +286,82 @@ querying this field
 important thing is that the fields of the object used correspond to
 the fields declared in the schema. If a field doesn't match then the
 result for that field will be `null`.
+
+Now if you execute the `randomCookie` query in the GraphiQL console
+you'll see the following.
+
+image::graphiql_execution_prototyping.png[]
+
+==== Real data
+
+Prototyping is great to favor communication between back and front
+developers, but at some point we should be serving real data. In the
+fortune cookies application we're going to use a relational database
+where the cookies are going to be stored.
+
+Because this is a small application we'll be using
+http://www.h2database.com/html/main.html[H2] which fits perfectly well
+with our requirements. In order to use `H2` we need to add the driver
+dependency to our `build.gradle`.
+
+[source, groovy]
+.build.gradle
+----
+include::{ratpack}/build.gradle[tags=h2, indent=0]
+----
+
+Next we need to create an instance of `javax.sql.DataSource` which
+will create the database connetion. Once the data source has been put
+in place, we need to add the `ratpack.groovy.sql.SqlModule`. This
+module will create a `groovy.sql.Sql` instance that will be available
+in the Ratpack's registry. That will come handy when injecting the
+`Sql` object in our services. But we'll se that in a bit, first
+let's declare datasource and module in `Ratpack.groovy` file.
+
+[source, groovy]
+.Ratpack.groovy
+----
+include::{ratpack}/src/ratpack/Ratpack.groovy[tags=embeddedDataSource, indent=0]
+----
+
+<1> `SqlModule` to create a `groovy.sql.Sql` instance available in the registry
+<2> An instance of type `javax.sql.DataSource` required to create database connections.
+
+Ok we've got a database connection, now it's time to create some
+data. For the moment we're creating the data also in the
+`Ratpack.groovy`.
+
+[source, groovy]
+.Ratpack.groovy
+----
+include::{ratpack}/src/ratpack/Ratpack.groovy[tags=withData, indent=0]
+----
+
+<1> We're creating a service that will execute at startup and will execute a series of
+sql statements
+<2> We take the `groovy.sq.Sql` instance from the registry
+
+Ok we have data, the only task remaining is to be able to get that
+data from the GraphQL query. That means to query the database from the
+function we used to serve dummy data. Because we coded that in a
+`provider` we can inject the `groovy.sql.Sql` instance in the provider
+and use it from there:
+
+[source, groovy]
+.SchemaProvider.groovy
+----
+include::{ratpack}/src/main/groovy/fortune/SchemaProvider.groovy[tags=sqlInjected, indent=0]
+----
+
+<1> We inject the `Sql` instance to use it in our fetcher function
+<2> Because the query is going to return a single instance of
+`groovy.sql.GroovyResult` that extends Map, we can return it as result
+of the fetcher function
+
+Next time you go to the GraphiQL console and execute the query you'll
+be getting data from the database.
+
+image::graphiql_from_database.png[]
 
 ==== Errors
 
