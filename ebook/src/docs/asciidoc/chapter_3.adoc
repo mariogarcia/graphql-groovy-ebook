@@ -5,7 +5,7 @@ applications.  It is a lean and powerful foundation, not an
 all-encompassing framework."
 -- www.ratpack.io
 
-=== Groovying with Ratpack
+=== Hello GraphQL
 
 One of the nice features of Groovy is that you can create a script to
 prototype before diving into creating a full featured one. The
@@ -52,14 +52,20 @@ ratpack { // <3>
 <2> Create a minimal schema instance
 <3> Add GraphQL/GraphiQL handlers and the schema
 
-=== Create Gradle project
+=== Fortune Cookies
 
-To create a Ratpack project is pretty straight forward thanks to
-http://www.sdkman.io[SDKMan] and
-https://github.com/pledbrook/lazybones[Lazybones]. First install
-**sdkman** following the instructions found in its site. Then add the
-following property to your `$HOME/.lazybones/config.groovy` (create
-the file if it doesn't exists yet)
+In the rest of this chapter I will be building a fortune cookies
+project. This Ratpack project will be built with the Gradle build
+tooling.
+
+==== Gradle project
+
+To create a Ratpack/Gradle project is pretty straight forward thanks
+to http://www.sdkman.io[SDKMan] and
+https://github.com/pledbrook/lazybones[Lazybones]. First of all
+install **sdkman** following the instructions found in its site. Then
+add the following property to your `$HOME/.lazybones/config.groovy`
+(create the file if it doesn't exists yet)
 
 [source, groovy]
 .config.groovy
@@ -87,36 +93,38 @@ the following structure (copied from Lazybones execution).
     <proj>
       |
       +- src
-          |
-          +- ratpack
-          |     |
-          |     +- Ratpack.groovy
-          |     +- ratpack.properties
-          |     +- public // Static assets in here
-          |          |
-          |          +- images
-          |          +- lib
-          |          +- scripts
-          |          +- styles
-          |
-          +- main
-          |   |
-          |   +- groovy
-                   |
-                   +- // App classes in here!
-          |
-          +- test
-              |
-              +- groovy
-                   |
-                   +- // Spock tests in here!
+      |   |
+      |   +- ratpack
+      |   |     |
+      |   |     +- Ratpack.groovy
+      |   |     +- ratpack.properties
+      |   |     +- public // Static assets in here
+      |   |          |
+      |   |          +- images
+      |   |          +- lib
+      |   |          +- scripts
+      |   |          +- styles
+      |   |
+      |   +- main
+      |   |   |
+      |   |   +- groovy
+      |            |
+      |            +- // App classes in here!
+      |   |
+      |   +- test
+      |       |
+      |       +- groovy
+      |            |
+      |            +- // Spock tests in here!
+      |
+      |
+      +- build.gradle // Gradle configuration
 ----
 
-
-=== Handlers
+==== GQL
 
 Now that we have the basic structure of a Ratpack project, add the
-`gql-ratpack` dependency:
+`gql-ratpack` dependency in your `build.gradle`:
 
 [source, groovy]
 .build.gradle
@@ -124,23 +132,7 @@ Now that we have the basic structure of a Ratpack project, add the
 include::{ratpack}/build.gradle[tags=gql-ratpack, indent=0]
 ----
 
-Then lets make available a GraphQL and GraphiQL handlers that will
-expose the execution engine and the GraphiQL console in two different
-HTTP endpoints.
-
-[source, groovy]
-.Ratpack.groovy
-----
-include::{ratpack}/src/ratpack/Ratpack.groovy[indent=0]
-----
-
-<1> GraphQLModule will expose the schema
-<2> GraphQL handler will be exposed at `/graphql` path
-<3> GraphiQL console will be exposed at `/graphql/browser` path
-
-
-
-=== Schema
+==== Schema
 
 We are almost ready to go. We need to create a minimal schema. But
 instead of coding the schema with Groovy we're going to use GraphQL
@@ -177,14 +169,41 @@ include::{ratpack}/src/main/resources/schema/Schema.graphql[indent=0]
 redundant, isn't it ? :P)
 
 To make the schema available to the GraphQL handler we need to load
-the schema definition and register it in the Ratpack's registry. We
-could add it directly to the `Ratpack.groovy` but in a
+the schema definition and register it in the Ratpack's
+registry. Although we could add it directly to the `Ratpack.groovy` as
+we did in the `Hello GraphQL` section, but in a more complex
+application is always worth keep things separate.
+
+In the case of this application we would like to create a
+`javax.inject.Provider` that provides a `GraphQLSchema`. Having the
+schema created by a provider brings us a series of benefits, the most
+important one, make the schema aware of the Ratpack's registry. Maybe
+that doesn't ring a bell yet, but we'll see how handy it is in a bit. For
+now this is the code for the schema provider:
 
 [source, groovy]
 .SchemaProvider.groovy
 ----
-include::{ratpack}/src/main/groovy/fortune/SchemaProvider.groovy[indent=0]
+include::{ratpack}/src/main/groovy/fortune/SchemaProvider.groovy[tags=initial, indent=0]
 ----
+
+==== Handlers
+
+Now open `Ratpack.groovy` and make available a GraphQL and GraphiQL
+handlers. Those handlers will expose the execution engine and the
+GraphiQL console in two different HTTP endpoints. We also have to set
+the `GraphQLModule`, this module will connect the handlers with the
+schema we'll be creating later on.
+
+[source, groovy]
+.Ratpack.groovy
+----
+include::{ratpack}/src/ratpack/Ratpack.groovy[indent=0]
+----
+
+<1> GraphQLModule will expose the schema
+<2> GraphQL handler will be exposed at `/graphql` path
+<3> GraphiQL console will be exposed at `/graphql/browser` path
 
 Although we won't be serving any data yet, but we can bootstrap the
 application to check how the schema looks like in the GraphiQL
@@ -197,12 +216,83 @@ console. So run the application and open the browser at
 ./gradlew run
 ----
 
-=== Handling errors
+==== GraphiQL 101
+
+If you have opened the browser you should be seeing this:
+
+image::graphiql_initial.png[]
+
+The most important zones of GraphiQL are:
+
+- **Queries area** (Left)
+
+Is where you will write your queries or mutations and then execute
+them to get some results. GraphiQL gives you auto-completion
+facilities to help you writing the queries, just write `{}` and inside
+the braces do `CTRL-SPACE` and you'll see a pop up suggesting you
+which queries you can use.
+
+image::graphiql_query_autocompletion.png[]
+
+- **Parameters tab** (Lower left)
+
+Right below the Queries are is the query parameter area. That area
+should be used to set the parameters used by a query. The same way you
+could use auto-completion in the query area, you can do the same
+here. GraphiQL knows which parameters you shoud be using for the
+declared query.
+
+- **Execution Result area** (Right)
+
+Whenever you execute a query, whether clicking on the `play` button or
+using the keystroke `CTRL-ENTER`, the result will be shown in the right
+area.
+
+image::graphiql_execution_result.png[]
+
+NOTE: At the moment we are only exposing the schema because there is
+no data that's why the query result shows `null` values. We'll be
+providing some dummy data in the next section.
+
+- **Schema explorer** (Upper right)
+
+Located in the upper right zone, there is a `Docs` button. That button
+will show a schema explorer. You can navigate through the schema to
+check types, fields and its restrictions.
+
+image::graphiql_schema_explorer.png[]
+
+==== Prototyping data
+
+Ok we have exposed the schema, but so far it doesn't serve any data,
+maybe front-end developers in our team are asking us to make some data
+available to start developing the UI but we haven't created the
+database connection yet. Well, we could provide some dummy data to
+avoid blocking them until we have the db connection ready.
+
+In the `SchemaProvider.groovy` we can add some data directly:
+
+[source, groovy]
+.SchemaProvider.groovy
+----
+include::{ratpack}/src/main/groovy/fortune/SchemaProvider.groovy[tags=dummy, indent=0]
+----
+
+<1> We would like to map some field in the `Queries` **type**
+<2> Specifically the `randomCookie` **field**. We use a Closure with a
+single parameter `env` to provide the data that will be served when
+querying this field
+<3> The response data. You can provide a map or an Object, the
+important thing is that the fields of the object used correspond to
+the fields declared in the schema. If a field doesn't match then the
+result for that field will be `null`.
+
+==== Errors
 
 NOTE: You can check how `graphql-java` handles exception during query
 execution at http://graphql-java.readthedocs.io/en/v7/execution.html
 
-=== Security
+==== Security
 
 (TODO)
 
