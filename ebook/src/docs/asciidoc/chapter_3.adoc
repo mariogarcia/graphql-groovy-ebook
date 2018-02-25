@@ -466,11 +466,30 @@ execution at http://graphql-java.readthedocs.io/en/v7/execution.html
 
 ==== Security
 
-(TODO)
+Most applications require to restrict the access to users
+somehow. Sometimes is enough with identifying who's accessing the
+system, that's reponsibility of the **authentication** system, and
+sometimes we need to go one step further and also establish which
+permissions have the authenticated users over the existing resources,
+that's responsibility of the **authorization** mechanism.
+
+Because `GraphQL` per se is a query language, is normal it doesn't
+provide any embedded security mechanism, bit provides enough to make
+it possible to attach, or build a security mechanism around it.
 
 ==== Authentication
 
-(TODO)
+Authentication is the process of recognizing a user's identity. You
+want to know if a given credentials sent to the server, can identify
+whoever has sent those credentials.
+
+As I mentioned previously `GraphQL` doesn't know how to authenticate a
+user, it's up to the application to decide how to authenticate the
+users and how to integrate the authentication with the GraphQL
+engine. That leaves as with two options:
+
+- Make a different REST endpoint for authentication
+- Integrate authentication with the `GraphQL` endpoint
 
 ==== Authorization
 
