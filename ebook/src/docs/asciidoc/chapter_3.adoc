@@ -363,6 +363,102 @@ be getting data from the database.
 
 image::graphiql_from_database.png[]
 
+==== Refactoring
+
+Yes, it's time to do some refactoring. There're a couple of things I
+would like to move outside `Ratpack.groovy` and the
+`SchemaProvider.groovy` to make the application "cleaner".
+
+First, it's obvious that the `Ratpack.groovy` file has grown a lot and
+maybe is time to clean it up. I'm going to move the datasource to a
+provider to be able to use a configuration file to get the connection
+that from it.
+
+Then to take the function responsible for executing the query outside
+`SchemaProvider.groovy`. To do that I'm creating
+`fortune.CookiesService` which will be wrapping the database querying.
+
+[source, groovy]
+.CookieService.groovy
+----
+include::{ratpack}/src/main/groovy/fortune/CookiesService.groovy[indent=0]
+----
+
+Then we also have to extract the DataSource declaration and if
+possible read the database properties from a yaml configuration
+file. In order to do that I'm moving the data source declaration from
+`Ratpack.groovy` to `fortune.DataSourceProvider`:
+
+[source, groovy]
+.DataSourceProvider.groovy
+----
+include::{ratpack}/src/main/groovy/fortune/DataSourceProvider.groovy[indent=0]
+----
+
+<1> We declare the necessity to get an instance of Map. The only map
+registered in the registry is the configuration information
+<2> The provider returns an instance of `javax.sql.DataSource`
+
+IMPORTANT: As we'll see in a moment the only `Map` injected in the
+registry is the configuration file information, that's why this is
+working. For a production application would be better to create your
+own configuration class, Map is too generic I'm afraid.
+
+Of course having all fixtures in the `Ratpack.groovy` file is not a
+very good idea. Although it could be a good idea to use a tool such as
+Flyway, for the moment I'm ok with just moving it outside the
+`Ratpack.groovy` file. I'm creating a Ratpack service. Ratpack services
+are aware of Ratpack's lifecycle, so it's easy to register a service
+to run only during application startup.
+
+[source, groovy]
+.FixturesService.groovy
+----
+include::{ratpack}/src/main/groovy/fortune/FixturesService.groovy[indent=0]
+----
+
+Now that we have break things apart we need to create the module that
+will glue them all. That module will be registered later in the
+`Ratpack.groovy` file. This module will be an instance of
+https://github.com/google/guice[Google Guice] `AbstractModule`. Guice
+is integrated with Ratpack, in fact Ratpack's modules are built on top
+of Guice modules.
+
+[source, groovy]
+.FortuneModule.groovy
+----
+include::{ratpack}/src/main/groovy/fortune/FortuneModule.groovy[indent=0]
+----
+
+<1> The `GraphQLSchema` dependencies be loaded using the `SchemaProvider` class
+<2> The `DataSource` dependencies will be loaded using the `DataSourceProvider` class
+<3> The `Service` dependencies will be loaded using the `FixturesService` class
+<4> Use `CookiesService` class to create instances of the same class
+
+In all cases we told Guice to reuse the same instance for all
+dependencies in the app (Scopes.SINGLETON)
+
+Ok we're almost done, the only thing we need to do is to load the
+configuration file, and register the `FortuneModule` we have just
+created.
+
+[source, groovy]
+.Ratpack.groovy
+----
+include::{ratpack}/src/ratpack/Ratpack.groovy[tags=refactored, indent=0]
+----
+
+<1> The configuration will be exposed as a `Map`. So that everytime
+someone ask for a `Map` instance in the Ratpack's registry a map with
+the configuration will be returned.
+<2> Register the `FortuneModule` to register all clases already
+registered in that module
+
+Now our application looks better and it's ready to keep growing. The
+chosen approach has been based on `dependency injection` and OOP
+paradigm, but it could also be possible to use a more functional
+approach.
+
 ==== Errors
 
 NOTE: You can check how `graphql-java` handles exception during query

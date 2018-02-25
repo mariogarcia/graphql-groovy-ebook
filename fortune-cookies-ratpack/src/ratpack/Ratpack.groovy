@@ -1,3 +1,36 @@
+// tag::refactored[]
+import static ratpack.groovy.Groovy.ratpack
+
+import gql.ratpack.GraphQLModule
+import gql.ratpack.GraphQLHandler
+import gql.ratpack.GraphiQLHandler
+
+import ratpack.server.ServerConfigBuilder
+import ratpack.groovy.sql.SqlModule
+import fortune.Config
+import fortune.FortuneModule
+
+ratpack {
+  serverConfig { ServerConfigBuilder config -> // <1>
+    config
+      .yaml("cookies.yml")
+      .require("", Map)
+  }
+
+  bindings {
+    module GraphQLModule
+    module SqlModule
+    module FortuneModule // <2>
+  }
+
+  handlers {
+    post('graphql', GraphQLHandler)
+    get('graphql/browser', GraphiQLHandler)
+  }
+}
+// end::refactored[]
+
+/**
 // tag::withData[]
 import static ratpack.groovy.Groovy.ratpack
 
@@ -60,6 +93,7 @@ ratpack {
   }
 }
 // end::withData[]
+ **/
 
 /**
 // tag::embeddedDataSource[]
