@@ -17,7 +17,8 @@ asciidoctor {
                icons               : 'font',
                toclevels           : 3,
                setanchors          : true,
-               'pdf-style'         : 'default'
+               'pdf-stylesdir'     : 'theme',
+               'pdf-style'         : 'custom'
 
     requires = ['asciidoctor-diagram']
 }

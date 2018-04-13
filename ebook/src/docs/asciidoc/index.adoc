@@ -1,6 +1,8 @@
 = Developing GraphQL applications with Groovy
+Mario Garcia
 :revnumber: {project-version}
 :numbered:
+:pagenums:
 :imagesDir: images/
 :imagesoutdir: images/
 :baseDir: .

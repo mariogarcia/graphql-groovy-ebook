@@ -1,4 +1,4 @@
-= GraphQL + Ratpack
+= GraphQL and Ratpack
 
 "Ratpack is a set of Java libraries for building scalable HTTP
 applications.  It is a lean and powerful foundation, not an
