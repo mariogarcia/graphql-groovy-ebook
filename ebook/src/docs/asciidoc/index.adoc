@@ -5,21 +5,23 @@
 :imagesoutdir: images/
 :baseDir: .
 :stem:
-
 :gql: {baseDir}/../../../../gql
 :grails: {baseDir}/../../../../graphql-grails
 :ratpack: {baseDir}/../../../../fortune-cookies-ratpack
+:front-cover-image: image:graphiql_initial.png[Front Cover,1050,1600]
+:doctype: anthology
+ifndef::ebook-format[:leveloffset: 1]
 
-include::chapter_0.adoc[]
+include::_chapter_0.adoc[]
 
-include::chapter_2.adoc[]
+include::_chapter_2.adoc[]
 
-include::chapter_3.adoc[]
+include::_chapter_3.adoc[]
 
-include::chapter_4.adoc[]
+include::_chapter_4.adoc[]
 
-include::chapter_5.adoc[]
+include::_chapter_5.adoc[]
 
-include::chapter_6.adoc[]
+include::_chapter_6.adoc[]
 
-include::chapter_7.adoc[]
+include::_chapter_7.adoc[]

@@ -1,12 +1,12 @@
-== Introduction
+= Introduction
 
-=== What is this all about ?
+== What is this all about ?
 
 Well this book was born with the idea of doing some research on what
 would be the best aproach when implementing a GraphQL solution using
 the Groovy programming language.
 
-=== Groovy
+== Groovy
 
 According to the Groovy site:
 
@@ -35,7 +35,7 @@ bunch of really great books covering the topic. I encourage you to
 take a look to the http://groovy-lang.org/learn.html[learn section in
 the Groovy site] to check them out.
 
-=== GraphQL
+== GraphQL
 
 GraphQL is a query language. It's been created to ease the way a given
 client can query some data from an underlying storage engine.
@@ -61,9 +61,9 @@ when facing a new topic:
 To answer these questions I'd require to compare GraphQL with
 something we are used to: REST
 
-==== GraphQL vs Rest
+== GraphQL vs Rest
 
-===== Apples and pears
+=== Apples and pears
 
 It's funny, but every time someone thinks of GraphQL tries to compare
 it with REST, and the truth is that both technologies are so different
@@ -81,7 +81,7 @@ its use.
 That separation of concerns is important because it means that we
 could even separate the GraphQL query execution from the web app.
 
-===== Resources vs Queries
+=== Resources vs Queries
 
 In REST words a given URI exposes a resource. So the more resources
 the more URIs we'll have. That's not necessary evil, because every URI
@@ -101,7 +101,7 @@ would like to retrieve from the server. It sounds like having SQL for
 the web right ? Well that's what we could achieve exposing GraphQL
 through HTTP.
 
-===== Error handling
+=== Error handling
 
 In the REST world every response is coded by an HTTP code:
 
@@ -122,14 +122,14 @@ Most of the GraphQL engines handle the error messages thrown by your
 application. Then the only remaining work would be to expose those
 messages over the underlying protocol.
 
-===== App types
+=== App types
 
 This topic is a continuation of the previous one. GraphQL could be
 used to expose data over HTTP or to query data over a JDBC connection,
 or even sending GraphQL queries over a RabbitMQ broker... the sky is
 the limit (and the common sense of course).
 
-===== Documentation
+=== Documentation
 
 When creating a REST API one of the common tasks to do is to expose
 the API documentation. How clients are supposed to use it, and if
@@ -149,7 +149,7 @@ is structured in it, the same way. And here's the best part, that's
 for free, the engine implementation is already doing that. This is
 named `schema introspection`.
 
-===== Batching
+=== Batching
 
 In a REST application, if a front end developer would want to get data
 from different sources, she should have whether to orchestrate
@@ -172,7 +172,7 @@ processed sequentially in the server.
 To sum up, batching could be a very valuable friend when developing
 the UI.
 
-==== Execution lifecycle 1o1
+== Execution lifecycle 1o1
 
 As we said in the introduction, **GraphQL** is a query language. It's
 based in a type system and defines a specific query language and how a

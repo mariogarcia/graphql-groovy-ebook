@@ -3,7 +3,7 @@ build/
 .idea/
 .gradle/
 
-
+*.log
 *.iml
 *.class
 

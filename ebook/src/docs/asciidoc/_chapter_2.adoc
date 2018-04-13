@@ -1,4 +1,4 @@
-== GQL and GraphQL
+= GQL and GraphQL
 
 **GQL** is a set of Groovy DSLs and AST transformations built on top
 of https://github.com/graphql-java/graphql-java[GraphQL-java] to make
@@ -12,7 +12,7 @@ without losing type safety. Some of the ideas behind **GQL**:
 The following script will repeat the execution lifecycle I showed in
 the previous chapter.
 
-=== Groovy script
+== Groovy script
 
 [source, groovy]
 ----
@@ -31,7 +31,7 @@ include::{gql}/scripts/chapter1/script.groovy[]
  +---------+         +-----------+         +---------+         +---------+
 ....
 
-=== Gradle
+== Gradle
 
 To use `GQL` add the dependency to your `build.gradle` file:
 
@@ -40,7 +40,7 @@ To use `GQL` add the dependency to your `build.gradle` file:
 include::{gql}/build.gradle[]
 ----
 
-=== Declaring types
+== Declaring types
 
 [source, groovy]
 ----
@@ -48,10 +48,10 @@ include::{gql}/src/test/groovy/chapter2/TypesSpec.groovy[tags=type, indent=0]
 ----
 
 
-=== Queries and mutations
+== Queries and mutations
 
 (TODO)
 
-=== Scalars
+== Scalars
 
 (TODO)

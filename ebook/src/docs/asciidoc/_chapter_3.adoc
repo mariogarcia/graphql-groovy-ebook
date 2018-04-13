@@ -1,11 +1,11 @@
-== GraphQL + Ratpack
+= GraphQL + Ratpack
 
 "Ratpack is a set of Java libraries for building scalable HTTP
 applications.  It is a lean and powerful foundation, not an
 all-encompassing framework."
 -- www.ratpack.io
 
-=== Hello GraphQL
+== Hello GraphQL
 
 One of the nice features of Groovy is that you can create a script to
 prototype before diving into creating a full featured one. The
@@ -52,13 +52,13 @@ ratpack { // <3>
 <2> Create a minimal schema instance
 <3> Add GraphQL/GraphiQL handlers and the schema
 
-=== Fortune Cookies
+== Fortune Cookies
 
 In the rest of this chapter I will be building a fortune cookies
 project. This Ratpack project will be built with the Gradle build
 tooling.
 
-==== Gradle project
+== Gradle project
 
 To create a Ratpack/Gradle project is pretty straight forward thanks
 to http://www.sdkman.io[SDKMan] and
@@ -121,7 +121,7 @@ the following structure (copied from Lazybones execution).
       +- build.gradle // Gradle configuration
 ----
 
-==== GQL
+=== GQL
 
 Now that we have the basic structure of a Ratpack project, add the
 `gql-ratpack` dependency in your `build.gradle`:
